@@ -57,6 +57,11 @@ body {
   animation: speakingPulse 1s ease-in-out infinite;
 }
 
+.speaking-bars.paused span {
+  animation-play-state: paused;
+  opacity: 0.6;
+}
+
 .speaking-bars span:nth-child(1) {
   animation-delay: 0s;
 }

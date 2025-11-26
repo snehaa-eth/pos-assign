@@ -1,4 +1,4 @@
-import { AudioLines, Loader2, MessageCircle, Mic, MicOff, Pause, Send } from "lucide-react";
+import { AudioLines, Loader2, MessageCircle, Mic, MicOff, Pause, Play, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface ChatInputProps {
@@ -9,6 +9,7 @@ interface ChatInputProps {
 export function ChatInput({ disabled, onSend }: ChatInputProps) {
   const [value, setValue] = useState("");
   const [isListening, setIsListening] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -18,6 +19,7 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
   const sseReaderRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const accumulatedTextRef = useRef<string>("");
   const isListeningRef = useRef<boolean>(false);
+  const isPausedRef = useRef<boolean>(false);
 
   useEffect(() => {
     return () => {
@@ -140,7 +142,9 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
 
   const stopListening = async () => {
     isListeningRef.current = false;
+    isPausedRef.current = false;
     setIsListening(false);
+    setIsPaused(false);
 
     if (processorRef.current) {
       processorRef.current.disconnect();
@@ -222,7 +226,7 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
       processorRef.current = processor;
 
       processor.onaudioprocess = (event) => {
-        if (!isListeningRef.current) return;
+        if (!isListeningRef.current || isPausedRef.current) return;
 
         const inputData = event.inputBuffer.getChannelData(0);
         const pcm16Data = convertToPCM16(inputData);
@@ -233,7 +237,9 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
       processor.connect(audioContext.destination);
 
       isListeningRef.current = true;
+      isPausedRef.current = false;
       setIsListening(true);
+      setIsPaused(false);
     } catch (error) {
       console.error("Error starting recording:", error);
       setIsListening(false);
@@ -241,13 +247,31 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
     }
   };
 
+  const pauseListening = () => {
+    isPausedRef.current = true;
+    setIsPaused(true);
+  };
+
+  const resumeListening = () => {
+    isPausedRef.current = false;
+    setIsPaused(false);
+  };
+
+  const togglePause = () => {
+    if (isPaused) {
+      resumeListening();
+    } else {
+      pauseListening();
+    }
+  };
+
   return (
     <div className="space-y-3">
       {isListening ? (
         <div className="flex items-center justify-between rounded-2xl bg-[#fff1e6] px-4 py-3 text-sm shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-          <span className="font-medium text-[#ea580c]">Listening...</span>
+          <span className="font-medium text-[#ea580c]">{isPaused ? "Paused" : "Listening..."}</span>
           <div className="flex flex-1 items-center justify-center">
-            <div className="speaking-bars" aria-hidden>
+            <div className={`speaking-bars ${isPaused ? "paused" : ""}`} aria-hidden>
               <span />
               <span />
               <span />
@@ -290,11 +314,11 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
             </button>
             <button
               type="button"
-              onClick={stopListening}
+              onClick={togglePause}
               className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-[#4b5563] shadow-sm"
-              aria-label="Pause listening"
+              aria-label={isPaused ? "Resume listening" : "Pause listening"}
             >
-              <Pause className="h-4 w-4" />
+              {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
             </button>
             <button
               type="button"

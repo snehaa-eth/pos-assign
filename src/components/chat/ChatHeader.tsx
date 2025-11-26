@@ -12,7 +12,7 @@ export function ChatHeader({ isThinking }: ChatHeaderProps) {
       <div className="flex items-center gap-3 rounded-full bg-white/90 px-5 py-3 text-xs font-medium text-[#4b5563] shadow-[0_18px_40px_rgba(15,23,42,0.1)] backdrop-blur">
         <div className="relative flex h-1.5 flex-1 overflow-hidden rounded-full bg-[#e5e7eb]">
           <div
-            className="absolute left-0 top-0 h-full w-3/4 rounded-full bg-gradient-to-r from-[#3b82f6] via-[#6366f1] to-[#22c55e] animate-[shimmer_1.4s_ease-in-out_infinite]"
+            className="absolute left-0 top-0 h-full w-3/4 rounded-full bg-linear-to-r from-[#3b82f6] via-[#6366f1] to-[#22c55e] animate-[shimmer_1.4s_ease-in-out_infinite]"
             aria-hidden
           />
         </div>

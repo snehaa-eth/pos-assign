@@ -12,15 +12,178 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  @apply m-0 min-h-screen bg-transparent text-[#111827];
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "SF Pro Text", "SF Pro Display", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-gradient-bg {
+  background: radial-gradient(
+      circle at 85% 85%,
+      #fcf6ec 0,
+      #fcf6ec 35%,
+      #ffffff 65%,
+      #ffffff 100%
+    );
+}
+
+.speaking-bars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+}
+
+.speaking-bars span {
+  width: 2px;
+  border-radius: 999px;
+  background-color: #ea580c;
+  animation: speakingPulse 1s ease-in-out infinite;
+}
+
+.speaking-bars span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.speaking-bars span:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.speaking-bars span:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+.speaking-bars span:nth-child(4) {
+  animation-delay: 0.21s;
+}
+
+.speaking-bars span:nth-child(5) {
+  animation-delay: 0.28s;
+}
+
+.speaking-bars span:nth-child(6) {
+  animation-delay: 0.35s;
+}
+
+.speaking-bars span:nth-child(7) {
+  animation-delay: 0.42s;
+}
+
+.speaking-bars span:nth-child(8) {
+  animation-delay: 0.49s;
+}
+
+.speaking-bars span:nth-child(9) {
+  animation-delay: 0.56s;
+}
+
+.speaking-bars span:nth-child(10) {
+  animation-delay: 0.63s;
+}
+
+.speaking-bars span:nth-child(11) {
+  animation-delay: 0.7s;
+}
+
+.speaking-bars span:nth-child(12) {
+  animation-delay: 0.77s;
+}
+
+.speaking-bars span:nth-child(13) {
+  animation-delay: 0.84s;
+}
+
+.speaking-bars span:nth-child(14) {
+  animation-delay: 0.91s;
+}
+
+.speaking-bars span:nth-child(15) {
+  animation-delay: 0.98s;
+}
+
+.speaking-bars span:nth-child(16) {
+  animation-delay: 1.05s;
+}
+
+.speaking-bars span:nth-child(17) {
+  animation-delay: 1.12s;
+}
+
+.speaking-bars span:nth-child(18) {
+  animation-delay: 1.19s;
+}
+
+.speaking-bars span:nth-child(19) {
+  animation-delay: 1.26s;
+}
+
+.speaking-bars span:nth-child(20) {
+  animation-delay: 1.33s;
+}
+
+.speaking-bars span:nth-child(21) {
+  animation-delay: 1.4s;
+}
+
+.speaking-bars span:nth-child(22) {
+  animation-delay: 1.47s;
+}
+
+.speaking-bars span:nth-child(23) {
+  animation-delay: 1.54s;
+}
+
+.speaking-bars span:nth-child(24) {
+  animation-delay: 1.61s;
+}
+
+.speaking-bars span:nth-child(25) {
+  animation-delay: 1.68s;
+}
+
+.speaking-bars span:nth-child(26) {
+  animation-delay: 1.75s;
+}
+
+.speaking-bars span:nth-child(27) {
+  animation-delay: 1.82s;
+}
+@keyframes shimmer {
+  0% {
+    transform: translateX(-40%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(40%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes speakingPulse {
+  0%,
+  100% {
+    height: 4px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 18px;
+    opacity: 1;
+  }
 }
